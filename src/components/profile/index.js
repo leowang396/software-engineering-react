@@ -1,8 +1,26 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Tuits from "../tuits";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import * as service from "../../services/auth-service"
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState({});
+  useEffect(async () => {
+    try {
+      const user = await service.profile();
+      setProfile(user);
+    } catch (e) {
+      navigate('/login');
+    }
+  }, []);
+
+  const logout = () => {
+    service.logout()
+        .then(() => navigate('/login'));
+  }
+
+  // TODO: Consult TA about the additional code cloned from A3, and see if they need to be removed.
   return(
     <div className="ttr-profile">
       <div className="border border-bottom-0">
@@ -24,9 +42,9 @@ const Profile = () => {
 
         <div className="p-2">
           <h4 className="fw-bolder pb-0 mb-0">
-            NASA<i className="fa fa-badge-check text-primary"></i>
+            {profile.username}<i className="fa fa-badge-check text-primary"></i>
           </h4>
-          <h6 className="pt-0">@NASA</h6>
+          <h6 className="pt-0">@{profile.username}</h6>
           <p className="pt-2">
             There's space for everybody. Sparkles
           </p>
@@ -66,6 +84,8 @@ const Profile = () => {
             </li>
           </ul>
         </div>
+        <button onClick={logout}>
+          Logout</button>
       </div>
       <Tuits/>
     </div>

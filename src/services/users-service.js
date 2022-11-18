@@ -1,5 +1,6 @@
 import axios from "axios";
-const BASE_URL = "http://software-engineering-node-dev.us-east-1.elasticbeanstalk.com";
+// const BASE_URL = "http://software-engineering-node-dev.us-east-1.elasticbeanstalk.com";
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const LOGIN_API = `${BASE_URL}/api/login`;
 const USERS_API = `${BASE_URL}/api/users`;
