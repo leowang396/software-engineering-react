@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import Tuits from "../tuits";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, Routes, Route} from "react-router-dom";
 import * as service from "../../services/auth-service"
+import MyTuits from "./my-tuits"
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -87,8 +87,20 @@ const Profile = () => {
         <button onClick={logout}>
           Logout</button>
       </div>
-      <Tuits/>
+
+      <Routes>
+        <Route path="/mytuits"
+               element={<MyTuits/>}/>
+        {/*TODO: Consult TA, these components in A4 does not seem to be implemented.*/}
+        {/*<Route path="/tuits-and-replies"*/}
+        {/*       element={<TuitsAndReplies/>}/>*/}
+        {/*<Route path="/media"*/}
+        {/*       element={<Media/>}/>*/}
+        {/*<Route path="/mylikes"*/}
+        {/*       element={<MyLikes/>}/>*/}
+      </Routes>
     </div>
   );
 }
+
 export default Profile;

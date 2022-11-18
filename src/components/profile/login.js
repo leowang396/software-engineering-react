@@ -13,7 +13,6 @@ export const Login = () => {
     const [loginUser, setLoginUser] = useState({});
     const navigate = useNavigate();
     // TODO: Consult TA to see if this way of refactoring is ok. signup.js does not seem to be used.
-    // TODO: Consult TA, there seems to be no /profile/mytuits screen in current repo.
     // Refactors login and register functions to use authService instead of userService.
     const login = () =>
         authService.login(loginUser)

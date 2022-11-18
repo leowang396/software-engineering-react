@@ -9,7 +9,7 @@ function Tuits({tuits = [], deleteTuit}) {
         {
           tuits.map && tuits.map(tuit => {
             return (
-              <Tuit key={tuit._id} deleteTuit={deleteTuit} tuit={tuit}/>
+              <Tuit deleteTuit={deleteTuit} tuit={tuit}/>
             );
           })
         }
