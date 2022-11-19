@@ -15,10 +15,21 @@ export default class TuitStats extends React.Component {
           <i className="far fa-retweet me-1"></i>
           {this.props.tuit.stats && this.props.tuit.stats.retuits}
         </div>
+
         <div className="col">
-          <i className="far fa-heart me-1"></i>
-          {this.props.tuit.stats && this.props.tuit.stats.likes}
+            <span onClick={() => this.props.likeTuit(this.props.tuit)}>
+                {
+                    this.props.tuit.stats && this.props.tuit.stats.likes > 0 &&
+                    <i className="fas fa-heart" style={{color: 'red'}}></i>
+                }
+                {
+                    this.props.tuit.stats && this.props.tuit.stats.likes <= 0 &&
+                    <i className="far fa-heart"></i>
+                }
+                {this.props.tuit.stats && this.props.tuit.stats.likes}
+            </span>
         </div>
+
         <div className="col">
           <i className="far fa-inbox-out"></i>
         </div>
