@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useNavigate, Routes, Route} from "react-router-dom";
 import * as service from "../../services/auth-service"
 import MyTuits from "./my-tuits"
+import MyLikes from "./my-likes";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -63,23 +64,19 @@ const Profile = () => {
           <b className="ms-4">51.1M</b> Followers
           <ul className="mt-4 nav nav-pills nav-fill">
             <li className="nav-item">
-              <Link to="/profile/tuits"
-                    className="nav-link active">
+              <Link to="/profile/mytuits" className="nav-link">
                 Tuits</Link>
             </li>
             <li className="nav-item">
-              <Link to="/profile/tuits-and-replies"
-                    className="nav-link">
+              <Link to="/profile/tuits-and-replies" className="nav-link">
                 Tuits & replies</Link>
             </li>
             <li className="nav-item">
-              <Link to="/profile/media"
-                    className="nav-link">
+              <Link to="/profile/media" className="nav-link">
                 Media</Link>
             </li>
             <li className="nav-item">
-              <Link to="/profile/likes"
-                    className="nav-link">
+              <Link to="/profile/mylikes" className="nav-link">
                 Likes</Link>
             </li>
           </ul>
@@ -87,18 +84,6 @@ const Profile = () => {
         <button onClick={logout}>
           Logout</button>
       </div>
-
-      <Routes>
-        <Route path="/mytuits"
-               element={<MyTuits/>}/>
-        {/*TODO: Consult TA, these components in A4 does not seem to be implemented.*/}
-        {/*<Route path="/tuits-and-replies"*/}
-        {/*       element={<TuitsAndReplies/>}/>*/}
-        {/*<Route path="/media"*/}
-        {/*       element={<Media/>}/>*/}
-        {/*<Route path="/mylikes"*/}
-        {/*       element={<MyLikes/>}/>*/}
-      </Routes>
     </div>
   );
 }
