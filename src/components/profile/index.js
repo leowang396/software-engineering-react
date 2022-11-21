@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, Routes, Route} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import * as service from "../../services/auth-service"
-import MyTuits from "./my-tuits"
-import MyLikes from "./my-likes";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -78,6 +76,10 @@ const Profile = () => {
             <li className="nav-item">
               <Link to="/profile/mylikes" className="nav-link">
                 Likes</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/profile/mydislikes" className="nav-link">
+                Dislikes</Link>
             </li>
           </ul>
         </div>
