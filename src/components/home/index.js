@@ -1,27 +1,52 @@
 import React from "react";
 import Tuits from "../tuits";
 import * as service from "../../services/tuits-service";
+import * as likesService from "../../services/likes-service";
+import * as dislikesService from "../../services/dislikes-service";
 import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 
 const Home = () => {
   const location = useLocation();
   const {uid} = useParams();
-  const [tuits, setTuits] = useState([]);
-  const [tuit, setTuit] = useState('');
   const userId = uid;
+  const [tuits, setTuits] = useState([]);
+  const [userLikedTuits, setUserLikedTuits] = useState([]);
+  const [userDislikedTuits, setUserDislikedTuits] = useState([]);
+  const [tuit, setTuit] = useState('');
   const findTuits = () => {
     if(uid) {
       return service.findAllTuitsByUser(uid)
         .then(tuits => setTuits(tuits))
-    } else {
+    }
+    else {
       return service.findAllTuits()
         .then(tuits => setTuits(tuits))
     }
   }
+  const findUserLikedTuits = () => {
+    if (uid) {
+      return likesService.findAllTuitsLikedByUser(uid)
+          .then(tuits => setUserLikedTuits(tuits))
+    }
+    else {
+      setUserLikedTuits([]);
+    }
+  }
+  const findUserDislikedTuits = () => {
+    if (uid) {
+      return dislikesService.findAllTuitsDislikedByUser(uid)
+          .then(tuits => setUserDislikedTuits(tuits))
+    }
+    else {
+      setUserDislikedTuits([]);
+    }
+  }
   useEffect(() => {
     let isMounted = true;
-    findTuits()
+    findTuits();
+    findUserLikedTuits();
+    findUserDislikedTuits();
     return () => {isMounted = false;}
   }, []);
   // TODO: Note that the original code was {tuit} in this function.
@@ -69,7 +94,8 @@ const Home = () => {
           </div>
         }
       </div>
-      <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findTuits}/>
+      <Tuits tuits={tuits} userLikedTuits={userLikedTuits} userDislikedTuits={userDislikedTuits}
+             deleteTuit={deleteTuit} refreshTuits={findTuits}/>
     </div>
   );
 };
