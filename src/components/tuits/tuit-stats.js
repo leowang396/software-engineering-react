@@ -19,11 +19,11 @@ export default class TuitStats extends React.Component {
         <div className="col">
             <span onClick={() => this.props.likeTuit(this.props.tuit)}>
                 {
-                    this.props.tuit.stats && this.props.tuit.stats.likes > 0 &&
+                    this.props.tuit.stats && this.props.userLiked === true &&
                     <i className="fa-solid fa-thumbs-up" style={{color: 'red'}}></i>
                 }
                 {
-                    this.props.tuit.stats && this.props.tuit.stats.likes <= 0 &&
+                    this.props.tuit.stats && this.props.userLiked === false &&
                     <i className="fa-solid fa-thumbs-up"></i>
                 }
                 {this.props.tuit.stats && this.props.tuit.stats.likes}
@@ -33,11 +33,11 @@ export default class TuitStats extends React.Component {
           <div className="col">
             <span onClick={() => this.props.dislikeTuit(this.props.tuit)}>
                 {
-                    this.props.tuit.stats && this.props.tuit.stats.dislikes > 0 &&
+                    this.props.tuit.stats && this.props.userDisliked === true &&
                     <i className="fa-solid fa-thumbs-down" style={{color: 'red'}}></i>
                 }
                 {
-                    this.props.tuit.stats && this.props.tuit.stats.dislikes <= 0 &&
+                    this.props.tuit.stats && this.props.userDisliked === false &&
                     <i className="fa-solid fa-thumbs-down"></i>
                 }
                 {this.props.tuit.stats && this.props.tuit.stats.dislikes}
