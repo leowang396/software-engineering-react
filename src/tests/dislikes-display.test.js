@@ -9,7 +9,7 @@ import {createTuitByUser, deleteTuit, findAllTuits} from "../services/tuits-serv
 import {createUser, deleteUsersByUsername} from "../services/users-service";
 import * as React from "react";
 import {findAllTuitsDislikedByUser, userTogglesTuitDislikes} from "../services/dislikes-service";
-import {userTogglesTuitLikes} from "../services/likes-service";
+import {findAllTuitsLikedByUser, userTogglesTuitLikes} from "../services/likes-service";
 
 const MOCKED_USER = {username: 'alice', password: 'lv426', email: 'alice@weyland.com'};
 
@@ -42,15 +42,17 @@ test('neutral tuit is rendered correctly', async () => {
 })
 
 test('neural tuit is rendered correctly after dislikes', async () => {
-    // Creates a propert Tuit object by POSTing a sample user and tuit to the server.
+    // Creates a proper Tuit object by POSTing a sample user and tuit to the server.
     const testUser = await createUser(MOCKED_USER);
     const createdTuit = await createTuitByUser(testUser._id, MOCKED_TUITS[2].tuit);
     await userTogglesTuitDislikes(testUser._id, createdTuit._id);
 
     const tuits = await findAllTuits();
+    const likedTuits = await findAllTuitsLikedByUser(testUser._id);
+    const dislikedTuits = await findAllTuitsDislikedByUser(testUser._id);
     render(
         <HashRouter>
-            <Tuits tuits={tuits}/>
+            <Tuits tuits={tuits} userLikedTuits={likedTuits} userDislikedTuits={dislikedTuits}/>
         </HashRouter>);
     const linkElement = screen.getByText(/charlie's tuit/i);
     expect(linkElement).toContainHTML(`<i class="fa-solid fa-thumbs-up" />`);
@@ -70,9 +72,11 @@ test('disliked tuit is rendered correctly after getting another dislike', async 
     await userTogglesTuitDislikes(testUser._id, createdTuit._id);
 
     const tuits = await findAllTuits();
+    const likedTuits = await findAllTuitsLikedByUser(testUser._id);
+    const dislikedTuits = await findAllTuitsDislikedByUser(testUser._id);
     render(
         <HashRouter>
-            <Tuits tuits={tuits}/>
+            <Tuits tuits={tuits} userLikedTuits={likedTuits} userDislikedTuits={dislikedTuits}/>
         </HashRouter>);
     const linkElement = screen.getByText(/charlie's tuit/i);
     expect(linkElement).toContainHTML(`<i class="fa-solid fa-thumbs-up" />`);
@@ -91,9 +95,11 @@ test('liked tuit is rendered correctly after getting disliked', async () => {
     await userTogglesTuitDislikes(testUser._id, createdTuit._id);
 
     const tuits = await findAllTuits();
+    const likedTuits = await findAllTuitsLikedByUser(testUser._id);
+    const dislikedTuits = await findAllTuitsDislikedByUser(testUser._id);
     render(
         <HashRouter>
-            <Tuits tuits={tuits}/>
+            <Tuits tuits={tuits} userLikedTuits={likedTuits} userDislikedTuits={dislikedTuits}/>
         </HashRouter>);
     const linkElement = screen.getByText(/charlie's tuit/i);
     expect(linkElement).toContainHTML(`<i class="fa-solid fa-thumbs-up" />`);
@@ -123,9 +129,10 @@ test('my-dislikes renders RESTful response correctly', async () => {
     await userTogglesTuitDislikes(testUser._id, createdTuit._id);
 
     const tuits = await findAllTuitsDislikedByUser(testUser._id);
+    const likedTuits = await findAllTuitsLikedByUser(testUser._id);
     render(
         <HashRouter>
-            <Tuits tuits={tuits}/>
+            <Tuits tuits={tuits} userLikedTuits={likedTuits} userDislikedTuits={tuits}/>
         </HashRouter>);
     const linkElement = screen.getByText(/charlie's tuit/i);
     expect(linkElement).toBeInTheDocument();
